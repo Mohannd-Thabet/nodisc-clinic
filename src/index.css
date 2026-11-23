@@ -1,0 +1,80 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    font-family: 'Cairo', 'Tajawal', system-ui, -apple-system, sans-serif;
+  }
+}
+
+/* Custom scrollbar for modern medical theme */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #94a3b8;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #1b4965;
+}
+
+/* Subtle pattern and gradient utilities */
+.medical-pattern {
+  background-color: #1b4965;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 0);
+  background-size: 24px 24px;
+}
+
+.hero-gradient {
+  background: linear-gradient(135deg, #0b1f2b 0%, #1b4965 50%, #24506f 100%);
+}
+
+.card-gradient {
+  background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+}
+
+/* Glowing Animated Border for Form Cards */
+@keyframes borderRotate {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.animated-form-card {
+  position: relative;
+  background-clip: padding-box;
+  border: 2px solid transparent;
+  border-radius: 1.75rem;
+}
+
+.animated-form-card::before {
+  content: '';
+  position: absolute;
+  inset: -3px;
+  border-radius: 1.95rem;
+  padding: 3px;
+  background: linear-gradient(90deg, #1b4965, #5fa8d3, #d4a843, #10b981, #5fa8d3, #1b4965);
+  background-size: 300% 300%;
+  animation: borderRotate 4s ease infinite;
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  z-index: 1;
+}
