@@ -42,14 +42,9 @@ export default function Header({ onToggleMobileDrawer }) {
     },
     { to: '/services-list', label: isAr ? 'الخدمات والإجراءات' : 'Services & Procedures' },
     { 
-      label: isAr ? 'متجر نوديسك' : 'NODISC Store', 
+      to: '/store', 
+      label: isAr ? 'المتجر' : 'Store', 
       highlightBadge: isAr ? 'جديد' : 'New',
-      dropdown: [
-        { to: '/nodisc-store', label: isAr ? 'تصفح المتجر بالكامل' : 'Browse Entire Store' },
-        { to: '/nodisc-store?cat=medical-supplies', label: isAr ? 'مستلزمات طبية ودعامات الظهر والعنق' : 'Spine & Neck Braces' },
-        { to: '/nodisc-store?cat=physio-rehab', label: isAr ? 'أجهزة التحفيز TENS والتأهيل الحركي' : 'TENS & Rehab Devices' },
-        { to: '/nodisc-store?action=prescription', label: isAr ? 'طلب بدوائك / رفع الوصفة الطبية' : 'Upload Prescription (Rx)' },
-      ]
     },
     { to: '/library', label: isAr ? 'المكتبة الطبية' : 'Medical Library' },
     { to: '/media-center', label: isAr ? 'المركز الإعلامي وقصص النجاح' : 'Media Center & Stories' },

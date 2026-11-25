@@ -24,6 +24,13 @@ import LocationsPage from './pages/LocationsPage';
 import NodiscPainRehabPage from './pages/NodiscPainRehabPage';
 import NodiscStorePage from './pages/NodiscStorePage';
 import MediaCenterPage from './pages/MediaCenterPage';
+import StoreLayout from './components/store/StoreLayout';
+import StoreHomePage from './pages/store/StoreHomePage';
+import StoreCategoriesPage from './pages/store/StoreCategoriesPage';
+import StoreOffersPage from './pages/store/StoreOffersPage';
+import StoreProductDetailPage from './pages/store/StoreProductDetailPage';
+import StorePrescriptionPage from './pages/store/StorePrescriptionPage';
+import StoreWishlistPage from './pages/store/StoreWishlistPage';
 
 // New Pages
 import DepartmentsPage from './pages/DepartmentsPage';
@@ -89,6 +96,17 @@ export default function App() {
       <Route path="/admin/users" element={<AdminUsersPage />} />
       <Route path="/admin/settings" element={<AdminSettingsPage />} />
 
+      {/* ===== المتجر الإلكتروني الصيدلاني المستقل ===== */}
+      <Route path="/store" element={<StoreLayout />}>
+        <Route index element={<StoreHomePage />} />
+        <Route path="products" element={<StoreCategoriesPage />} />
+        <Route path="categories" element={<StoreCategoriesPage />} />
+        <Route path="offers" element={<StoreOffersPage />} />
+        <Route path="product/:slug" element={<StoreProductDetailPage />} />
+        <Route path="prescription" element={<StorePrescriptionPage />} />
+        <Route path="wishlist" element={<StoreWishlistPage />} />
+      </Route>
+
       {/* ===== الموقع العام ===== */}
       <Route element={<Layout />}>
         <Route path="/" element={<HomePage />} />
@@ -105,8 +123,7 @@ export default function App() {
         <Route path="/nodisc-physiotherapy" element={<PhysiotherapyPage />} />
         <Route path="/nodisc-pain-rehab" element={<NodiscPainRehabPage />} />
         <Route path="/nodisc" element={<Navigate to="/nodisc-pain-rehab" replace />} />
-        <Route path="/nodisc-store" element={<NodiscStorePage />} />
-        <Route path="/store" element={<Navigate to="/nodisc-store" replace />} />
+        <Route path="/nodisc-store" element={<Navigate to="/store" replace />} />
         <Route path="/specializations" element={<SpecializationsPage />} />
         <Route path="/services" element={<Navigate to="/services-list" replace />} />
         <Route path="/services-list" element={<ServicesListPage />} />

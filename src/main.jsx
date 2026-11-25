@@ -5,6 +5,7 @@ import App from './App';
 import { ThemeProvider } from './context/ThemeContext';
 import { LanguageProvider } from './context/LanguageContext';
 import { CartProvider } from './context/CartContext';
+import { StoreProvider } from './context/StoreContext';
 import { DataStoreProvider } from './context/DataStoreContext';
 import { ClinicProvider } from './context/ClinicContext';
 import './index.css';
@@ -17,7 +18,9 @@ ReactDOM.createRoot(document.getElementById('root')).render(
           <DataStoreProvider>
             <ClinicProvider>
               <CartProvider>
-                <App />
+                <StoreProvider>
+                  <App />
+                </StoreProvider>
               </CartProvider>
             </ClinicProvider>
           </DataStoreProvider>
