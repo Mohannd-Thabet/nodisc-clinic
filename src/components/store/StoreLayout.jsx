@@ -7,6 +7,7 @@ import StoreSearchModal from './StoreSearchModal';
 import StoreFloatingButton from './StoreFloatingButton';
 import StoreCartDrawer from './StoreCartDrawer';
 import StoreBottomNav from './StoreBottomNav';
+import StoreMarquee from './StoreMarquee';
 
 export default function StoreLayout() {
   const [isMobileDrawerOpen, setIsMobileDrawerOpen] = useState(false);
@@ -14,6 +15,7 @@ export default function StoreLayout() {
   return (
     <div className="min-h-screen flex flex-col overflow-x-hidden bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 transition-colors duration-300">
       <StoreHeader onOpenMobileDrawer={() => setIsMobileDrawerOpen(true)} />
+      <StoreMarquee />
 
       <StoreMobileDrawer
         isOpen={isMobileDrawerOpen}

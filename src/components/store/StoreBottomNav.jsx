@@ -24,7 +24,7 @@ export default function StoreBottomNav() {
           }
         >
           <Home className="w-5 h-5 mb-0.5" />
-          <span className="text-[10px]">{isAr ? 'الرئيسية' : 'Home'}</span>
+          <span className="text-[10px] sm:text-[11px] font-bold">{isAr ? 'الرئيسية' : 'Home'}</span>
         </NavLink>
 
         <NavLink
@@ -38,7 +38,7 @@ export default function StoreBottomNav() {
           }
         >
           <Tag className="w-5 h-5 mb-0.5" />
-          <span className="text-[10px]">{isAr ? 'العروض' : 'Offers'}</span>
+          <span className="text-[10px] sm:text-[11px] font-bold">{isAr ? 'العروض' : 'Offers'}</span>
         </NavLink>
 
         <button
@@ -47,7 +47,7 @@ export default function StoreBottomNav() {
           className="relative flex flex-col items-center justify-center py-1.5 px-4 rounded-xl bg-gradient-to-r from-emerald-600 to-primary-700 text-white shadow-md -translate-y-2"
         >
           <ShoppingCart className="w-5 h-5 mb-0.5" />
-          <span className="text-[10px] font-bold">{isAr ? 'السلة' : 'Cart'}</span>
+          <span className="text-[10px] sm:text-[11px] font-bold">{isAr ? 'السلة' : 'Cart'}</span>
           {cartCount > 0 && (
             <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-gold-400 text-slate-950 text-[10px] font-black flex items-center justify-center">
               {cartCount}
@@ -66,7 +66,7 @@ export default function StoreBottomNav() {
           }
         >
           <UploadCloud className="w-5 h-5 mb-0.5" />
-          <span className="text-[10px]">{isAr ? 'رفع وصفة' : 'Upload Rx'}</span>
+          <span className="text-[10px] sm:text-[11px] font-bold">{isAr ? 'رفع وصفة' : 'Upload Rx'}</span>
         </NavLink>
       </div>
     </div>

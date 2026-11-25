@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import Header from './Header';
+import ClinicMarquee from './ClinicMarquee';
 import Footer from './Footer';
 import BottomNav from './BottomNav';
 import MobileDrawer from './MobileDrawer';
@@ -13,6 +14,7 @@ export default function Layout({ children }) {
   return (
     <div className="min-h-screen flex flex-col overflow-x-hidden bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 transition-colors duration-300">
       <Header onToggleMobileDrawer={() => setIsDrawerOpen(true)} />
+      <ClinicMarquee />
       
       {/* Mobile Sidebar Drawer */}
       <MobileDrawer isOpen={isDrawerOpen} onClose={() => setIsDrawerOpen(false)} />

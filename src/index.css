@@ -78,3 +78,39 @@
   pointer-events: none;
   z-index: 1;
 }
+
+/* Seamless CSS Marquee */
+@keyframes nodisc-marquee-ltr {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.nodisc-marquee-track {
+  display: flex;
+  width: max-content;
+  will-change: transform;
+  animation: nodisc-marquee-ltr var(--marquee-duration, 32s) linear infinite;
+}
+
+.nodisc-marquee-container:hover .nodisc-marquee-track,
+.nodisc-marquee-container:focus-within .nodisc-marquee-track {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nodisc-marquee-track {
+    animation: none !important;
+  }
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}

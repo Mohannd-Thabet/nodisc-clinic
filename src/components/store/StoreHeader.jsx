@@ -125,17 +125,8 @@ export default function StoreHeader({ onOpenMobileDrawer }) {
       {/* Sticky Main Store Header */}
       <div className="bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 transition-colors">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 sm:h-20 flex items-center justify-between gap-3">
-          {/* Store Brand with Official Logo */}
+          {/* Store Brand with Official Logo (Only Store Name, no subtitle; menu button moved to actions side) */}
           <div className="flex items-center gap-3">
-            <button
-              type="button"
-              onClick={onOpenMobileDrawer}
-              className="lg:hidden p-2 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:bg-primary-50"
-              aria-label={isAr ? 'قائمة المتجر' : 'Store Menu'}
-            >
-              <Menu className="w-5 h-5" />
-            </button>
-
             <Link to="/store" className="flex items-center gap-3 group">
               <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-2xl overflow-hidden border-2 border-emerald-500/40 shadow-md group-hover:scale-105 transition-transform bg-white shrink-0 p-0.5">
                 <img
@@ -144,13 +135,8 @@ export default function StoreHeader({ onOpenMobileDrawer }) {
                   className="w-full h-full object-contain rounded-xl"
                 />
               </div>
-              <div>
-                <div className="font-black text-sm sm:text-base text-slate-900 dark:text-white leading-tight">
-                  {isAr ? 'متجر نوديسك' : 'NODISC Store'}
-                </div>
-                <div className="text-[10px] sm:text-xs text-emerald-700 dark:text-emerald-400 font-bold">
-                  {isAr ? 'الصيدلية والمستلزمات الطبية' : 'Pharmacy & Medical Supplies'}
-                </div>
+              <div className="font-black text-sm sm:text-base text-slate-900 dark:text-white leading-tight">
+                {isAr ? 'متجر نوديسك' : 'NODISC Store'}
               </div>
             </Link>
           </div>
@@ -221,6 +207,16 @@ export default function StoreHeader({ onOpenMobileDrawer }) {
                 </span>
               )}
             </Link>
+
+            {/* Hamburger Menu Button placed next to Heart icon */}
+            <button
+              type="button"
+              onClick={onOpenMobileDrawer}
+              className="lg:hidden p-2 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:bg-primary-50 border border-slate-200 dark:border-slate-700 transition-colors"
+              aria-label={isAr ? 'قائمة المتجر' : 'Store Menu'}
+            >
+              <Menu className="w-5 h-5" />
+            </button>
 
             <button
               type="button"
