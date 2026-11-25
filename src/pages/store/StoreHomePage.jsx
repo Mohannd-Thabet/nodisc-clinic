@@ -201,7 +201,7 @@ export default function StoreHomePage() {
       {/* 3. Collapsible Main Section Cards with Sub-Categories & Product Grids */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
         {visibleSections.map((section) => {
-          const isExpanded = expandedSections[section.id] !== false;
+          const isExpanded = selectedSection !== 'all' ? true : expandedSections[section.id] !== false;
           const activeSub = subCategoryBySection[section.id] || 'all';
           const sectionSubsCount = storeSubCategories.filter((s) => s.categoryId === section.id).length;
 
@@ -255,24 +255,26 @@ export default function StoreHomePage() {
                   </div>
                 </div>
 
-                <div className="flex items-center gap-2.5 self-end md:self-auto">
-                  <Link
-                    to={`/store/categories?section=${section.id}`}
-                    className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-primary-700 hover:bg-primary-800 text-white font-bold text-xs shadow-sm transition-colors"
-                  >
-                    <span>{isAr ? 'عرض المجموعة' : 'View Section'}</span>
-                    {isRtl ? <ArrowLeft className="w-3.5 h-3.5" /> : <ArrowRight className="w-3.5 h-3.5" />}
-                  </Link>
+                {selectedSection === 'all' && (
+                  <div className="flex items-center gap-2.5 self-end md:self-auto">
+                    <Link
+                      to={`/store/categories?section=${section.id}`}
+                      className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-primary-700 hover:bg-primary-800 text-white font-bold text-xs shadow-sm transition-colors"
+                    >
+                      <span>{isAr ? 'عرض المجموعة' : 'View Section'}</span>
+                      {isRtl ? <ArrowLeft className="w-3.5 h-3.5" /> : <ArrowRight className="w-3.5 h-3.5" />}
+                    </Link>
 
-                  <button
-                    type="button"
-                    onClick={() => toggleSectionExpand(section.id)}
-                    className="p-2 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:border-primary-400 transition-colors"
-                    aria-label={isExpanded ? 'Collapse' : 'Expand'}
-                  >
-                    {isExpanded ? <ChevronUp className="w-5 h-5" /> : <ChevronDown className="w-5 h-5" />}
-                  </button>
-                </div>
+                    <button
+                      type="button"
+                      onClick={() => toggleSectionExpand(section.id)}
+                      className="p-2 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:border-primary-400 transition-colors"
+                      aria-label={isExpanded ? 'Collapse' : 'Expand'}
+                    >
+                      {isExpanded ? <ChevronUp className="w-5 h-5" /> : <ChevronDown className="w-5 h-5" />}
+                    </button>
+                  </div>
+                )}
               </div>
 
               {/* Expandable Body: Sub-category filter bar + Product Grid */}
@@ -303,17 +305,19 @@ export default function StoreHomePage() {
           );
         })}
 
-        {/* All Products CTA Button */}
-        <div className="text-center pt-4">
-          <Link
-            to="/store/products"
-            className="inline-flex items-center gap-2 px-8 py-4 rounded-2xl bg-gradient-to-r from-primary-700 to-emerald-600 hover:from-primary-800 hover:to-emerald-700 text-white font-black text-sm shadow-xl hover:scale-105 active:scale-95 transition-all"
-          >
-            <Grid className="w-5 h-5 text-gold-300" />
-            <span>{isAr ? 'جميع المنتجات' : 'All Products'}</span>
-            {isRtl ? <ArrowLeft className="w-4 h-4" /> : <ArrowRight className="w-4 h-4" />}
-          </Link>
-        </div>
+        {/* All Products CTA Button (only shown when viewing All Sections) */}
+        {selectedSection === 'all' && (
+          <div className="text-center pt-4">
+            <Link
+              to="/store/products"
+              className="inline-flex items-center gap-2 px-8 py-4 rounded-2xl bg-gradient-to-r from-primary-700 to-emerald-600 hover:from-primary-800 hover:to-emerald-700 text-white font-black text-sm shadow-xl hover:scale-105 active:scale-95 transition-all"
+            >
+              <Grid className="w-5 h-5 text-gold-300" />
+              <span>{isAr ? 'جميع المنتجات' : 'All Products'}</span>
+              {isRtl ? <ArrowLeft className="w-4 h-4" /> : <ArrowRight className="w-4 h-4" />}
+            </Link>
+          </div>
+        )}
       </section>
 
       {/* 4. Moved Old Intro Box BELOW "جميع المنتجات" Button */}
