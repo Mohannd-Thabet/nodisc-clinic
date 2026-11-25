@@ -137,11 +137,11 @@ export default function StoreHeader({ onOpenMobileDrawer }) {
             </button>
 
             <Link to="/store" className="flex items-center gap-3 group">
-              <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-2xl overflow-hidden border-2 border-emerald-500/40 shadow-md group-hover:scale-105 transition-transform bg-white shrink-0">
+              <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-2xl overflow-hidden border-2 border-emerald-500/40 shadow-md group-hover:scale-105 transition-transform bg-white shrink-0 p-0.5">
                 <img
-                  src="/assets/full_logo.jpg"
+                  src="/assets/nodisc_photo.jpg"
                   alt={isAr ? 'شعار متجر نوديسك' : 'NODISC Store Logo'}
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-contain rounded-xl"
                 />
               </div>
               <div>
@@ -225,7 +225,7 @@ export default function StoreHeader({ onOpenMobileDrawer }) {
             <button
               type="button"
               onClick={openCart}
-              className="inline-flex items-center gap-2 px-3 sm:px-4 py-2 rounded-xl bg-gradient-to-r from-emerald-600 to-primary-700 hover:from-emerald-700 hover:to-primary-800 text-white font-bold text-xs shadow-md active:scale-95 transition-all"
+              className="hidden md:inline-flex items-center gap-2 px-3 sm:px-4 py-2 rounded-xl bg-gradient-to-r from-emerald-600 to-primary-700 hover:from-emerald-700 hover:to-primary-800 text-white font-bold text-xs shadow-md active:scale-95 transition-all"
             >
               <div className="relative">
                 <ShoppingCart className="w-4 h-4" />

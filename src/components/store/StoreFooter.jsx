@@ -40,11 +40,11 @@ export default function StoreFooter() {
           {/* Column 1: Identity with Logo, Contact, Currency, Theme & Language Switchers */}
           <div className="space-y-4">
             <div className="flex items-center gap-3">
-              <div className="w-11 h-11 rounded-xl overflow-hidden border border-emerald-500/40 bg-white shrink-0">
+              <div className="w-11 h-11 rounded-xl overflow-hidden border border-emerald-500/40 bg-white shrink-0 p-0.5">
                 <img
-                  src="/assets/full_logo.jpg"
+                  src="/assets/nodisc_photo.jpg"
                   alt={isAr ? 'شعار متجر نوديسك' : 'NODISC Store Logo'}
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-contain rounded-lg"
                 />
               </div>
               <div>

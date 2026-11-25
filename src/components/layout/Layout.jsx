@@ -11,7 +11,7 @@ export default function Layout({ children }) {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   return (
-    <div className="min-h-screen flex flex-col bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 transition-colors duration-300">
+    <div className="min-h-screen flex flex-col overflow-x-hidden bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 transition-colors duration-300">
       <Header onToggleMobileDrawer={() => setIsDrawerOpen(true)} />
       
       {/* Mobile Sidebar Drawer */}

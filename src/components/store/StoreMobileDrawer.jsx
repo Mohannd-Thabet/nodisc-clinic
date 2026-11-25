@@ -40,11 +40,11 @@ export default function StoreMobileDrawer({ isOpen, onClose }) {
       <div className="relative z-10 w-80 max-w-[85vw] bg-white dark:bg-slate-900 h-full shadow-2xl flex flex-col overflow-y-auto">
         <div className="p-4 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between bg-slate-950 text-white">
           <div className="flex items-center gap-2.5">
-            <div className="w-9 h-9 rounded-xl overflow-hidden border border-emerald-500/40 bg-white shrink-0">
+            <div className="w-9 h-9 rounded-xl overflow-hidden border border-emerald-500/40 bg-white shrink-0 p-0.5">
               <img
-                src="/assets/full_logo.jpg"
+                src="/assets/nodisc_photo.jpg"
                 alt={isAr ? 'شعار متجر نوديسك' : 'NODISC Store Logo'}
-                className="w-full h-full object-cover"
+                className="w-full h-full object-contain rounded-lg"
               />
             </div>
             <div>
