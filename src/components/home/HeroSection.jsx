@@ -118,8 +118,8 @@ export default function HeroSection() {
               {/* Main prestige card with animated glowing border */}
               <div className="relative bg-gradient-to-b from-white/15 to-white/5 backdrop-blur-xl border border-white/25 rounded-3xl p-6 sm:p-8 shadow-2xl text-center space-y-6">
                 
-                {/* Doctor's Photo Frame */}
-                <div className="relative mx-auto w-52 h-64 sm:w-64 sm:h-72 rounded-3xl overflow-hidden bg-gradient-to-br from-primary-800 to-primary-950 p-1.5 shadow-2xl border-2 border-gold-400/70 group">
+                {/* Doctor's Photo Frame — Clean Medical Pearl & Cyan Prestige Frame */}
+                <div className="relative mx-auto w-52 h-64 sm:w-64 sm:h-72 rounded-3xl overflow-hidden bg-gradient-to-br from-white via-cyan-100 to-emerald-100 p-1.5 shadow-[0_20px_50px_rgba(14,165,233,0.28)] ring-4 ring-white/25 group">
                   <img 
                     src="/assets/doctor_real.jpg" 
                     alt={t('common.drName')}
@@ -128,8 +128,8 @@ export default function HeroSection() {
                       e.target.src = '/assets/full_logo.jpg';
                     }}
                   />
-                  <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-slate-950/90 via-slate-950/50 to-transparent p-2.5 text-center">
-                    <span className="text-xs font-bold text-gold-300">
+                  <div className="absolute bottom-2.5 inset-x-3 flex justify-center">
+                    <span className="px-3.5 py-1 rounded-full bg-white/95 backdrop-blur-md text-primary-900 border border-cyan-200/80 shadow-lg text-[11px] font-extrabold tracking-tight">
                       {lang === 'ar' ? 'د. محمد عبدالله الجرباني' : 'Dr. Mohammed Al-Jarbani'}
                     </span>
                   </div>
