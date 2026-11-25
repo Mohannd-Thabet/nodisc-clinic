@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import {
-  Pill,
   Phone,
   MapPin,
   Clock,
@@ -11,8 +10,11 @@ import {
   ArrowLeft,
   ShieldCheck,
   Banknote,
+  Sun,
+  Moon,
 } from 'lucide-react';
 import { useLanguage } from '../../context/LanguageContext';
+import { useTheme } from '../../context/ThemeContext';
 import { useStore } from '../../context/StoreContext';
 import { storeCategories } from '../../data/storeProducts';
 
@@ -26,7 +28,8 @@ const paymentMethods = [
 
 export default function StoreFooter() {
   const { lang, toggleLanguage, isRtl } = useLanguage();
-  const { currency, toggleCurrency } = useStore();
+  const { toggleTheme, isDark } = useTheme();
+  const { currency, setCurrency } = useStore();
   const isAr = lang === 'ar';
 
   return (
@@ -34,11 +37,15 @@ export default function StoreFooter() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* 4 Columns */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {/* Column 1: Identity, Contact, Currency & Language Switchers */}
+          {/* Column 1: Identity with Logo, Contact, Currency, Theme & Language Switchers */}
           <div className="space-y-4">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-emerald-600 text-white flex items-center justify-center shadow">
-                <Pill className="w-5 h-5 text-gold-300" />
+              <div className="w-11 h-11 rounded-xl overflow-hidden border border-emerald-500/40 bg-white shrink-0">
+                <img
+                  src="/assets/full_logo.jpg"
+                  alt={isAr ? 'شعار متجر نوديسك' : 'NODISC Store Logo'}
+                  className="w-full h-full object-cover"
+                />
               </div>
               <div>
                 <h3 className="font-black text-white text-base">
@@ -65,15 +72,37 @@ export default function StoreFooter() {
               </div>
             </div>
 
-            {/* Currency & Language Switchers */}
+            {/* Currency (YER / SAR / USD), Theme & Language Switchers */}
             <div className="flex flex-wrap items-center gap-2 pt-2">
+              <div className="inline-flex items-center rounded-xl bg-slate-900 border border-slate-700 p-1">
+                <Coins className="w-3.5 h-3.5 text-gold-400 mx-1.5" />
+                {[
+                  { code: 'YER', label: isAr ? 'ر.ي' : 'YER' },
+                  { code: 'SAR', label: isAr ? 'ر.س' : 'SAR' },
+                  { code: 'USD', label: '$' },
+                ].map((c) => (
+                  <button
+                    key={c.code}
+                    type="button"
+                    onClick={() => setCurrency(c.code)}
+                    className={`px-2 py-0.5 rounded-lg text-[11px] font-black transition-colors ${
+                      currency === c.code
+                        ? 'bg-gold-400 text-slate-950'
+                        : 'text-slate-300 hover:text-white'
+                    }`}
+                  >
+                    {c.label}
+                  </button>
+                ))}
+              </div>
+
               <button
                 type="button"
-                onClick={toggleCurrency}
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-700 hover:border-gold-400 text-gold-300 text-xs font-bold transition-colors"
+                onClick={toggleTheme}
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-700 hover:border-amber-400 text-white text-xs font-bold transition-colors"
               >
-                <Coins className="w-3.5 h-3.5" />
-                <span>{currency === 'YER' ? (isAr ? 'العملة: ريال يمني' : 'Currency: YER') : (isAr ? 'العملة: دولار ($)' : 'Currency: USD ($)')}</span>
+                {isDark ? <Sun className="w-3.5 h-3.5 text-amber-400" /> : <Moon className="w-3.5 h-3.5 text-slate-300" />}
+                <span>{isDark ? (isAr ? 'نهاري' : 'Light') : (isAr ? 'ليلي' : 'Dark')}</span>
               </button>
 
               <button

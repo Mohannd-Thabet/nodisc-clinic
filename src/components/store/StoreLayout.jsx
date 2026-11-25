@@ -6,6 +6,7 @@ import StoreMobileDrawer from './StoreMobileDrawer';
 import StoreSearchModal from './StoreSearchModal';
 import StoreFloatingButton from './StoreFloatingButton';
 import StoreCartDrawer from './StoreCartDrawer';
+import StoreBottomNav from './StoreBottomNav';
 
 export default function StoreLayout() {
   const [isMobileDrawerOpen, setIsMobileDrawerOpen] = useState(false);
@@ -22,11 +23,12 @@ export default function StoreLayout() {
       <StoreSearchModal />
       <StoreCartDrawer />
 
-      <main className="flex-1">
+      <main className="flex-1 pb-20 md:pb-0">
         <Outlet />
       </main>
 
       <StoreFooter />
+      <StoreBottomNav onOpenMenu={() => setIsMobileDrawerOpen(true)} />
       <StoreFloatingButton />
     </div>
   );

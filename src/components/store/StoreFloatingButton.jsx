@@ -8,7 +8,7 @@ export default function StoreFloatingButton() {
   const isAr = lang === 'ar';
 
   return (
-    <div className="fixed bottom-5 left-5 z-30 flex flex-col items-start gap-2">
+    <div className="fixed bottom-20 md:bottom-5 left-4 z-30 flex flex-col items-start gap-2">
       <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-2xl shadow-2xl p-3 flex flex-col gap-2 max-w-[240px]">
         <div className="flex items-center gap-2 text-xs font-extrabold text-slate-900 dark:text-white">
           <span className="w-7 h-7 rounded-lg bg-emerald-100 dark:bg-emerald-950 text-emerald-600 dark:text-emerald-400 flex items-center justify-center shrink-0">

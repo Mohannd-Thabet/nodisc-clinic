@@ -4,11 +4,13 @@ const StoreContext = createContext(null);
 
 const WISHLIST_STORAGE_KEY = 'nodisc_store_wishlist_v1';
 const CURRENCY_STORAGE_KEY = 'nodisc_store_currency_v1';
+const CURRENCIES = ['YER', 'SAR', 'USD'];
 
 export function StoreProvider({ children }) {
   const [currency, setCurrency] = useState(() => {
     try {
-      return localStorage.getItem(CURRENCY_STORAGE_KEY) || 'YER';
+      const saved = localStorage.getItem(CURRENCY_STORAGE_KEY);
+      return CURRENCIES.includes(saved) ? saved : 'YER';
     } catch {
       return 'YER';
     }
@@ -42,15 +44,23 @@ export function StoreProvider({ children }) {
   }, [wishlist]);
 
   const toggleCurrency = () => {
-    setCurrency((prev) => (prev === 'YER' ? 'USD' : 'YER'));
+    setCurrency((prev) => {
+      const idx = CURRENCIES.indexOf(prev);
+      return CURRENCIES[(idx + 1) % CURRENCIES.length];
+    });
   };
 
   const formatPrice = (priceYER, priceUSD) => {
+    const yer = priceYER || 0;
     if (currency === 'USD') {
-      const usd = priceUSD ?? Math.round((priceYER || 0) / 535);
+      const usd = priceUSD ?? Math.round(yer / 535);
       return `$${usd.toLocaleString()}`;
     }
-    return `${(priceYER || 0).toLocaleString()} ر.ي`;
+    if (currency === 'SAR') {
+      const sar = Math.round(yer / 142);
+      return `${sar.toLocaleString()} ر.س`;
+    }
+    return `${yer.toLocaleString()} ر.ي`;
   };
 
   const toggleWishlist = (productId) => {
@@ -67,6 +77,7 @@ export function StoreProvider({ children }) {
     <StoreContext.Provider
       value={{
         currency,
+        currencies: CURRENCIES,
         setCurrency,
         toggleCurrency,
         formatPrice,

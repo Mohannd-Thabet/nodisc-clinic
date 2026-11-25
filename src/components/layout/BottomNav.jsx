@@ -16,7 +16,7 @@ export default function BottomNav() {
   const navItems = [
     { to: '/', label: isAr ? 'الرئيسية' : 'Home', icon: Home },
     { to: '/nodisc-pain-rehab', label: isAr ? 'نوديسك' : 'NODISC', icon: Activity },
-    { to: '/nodisc-store', label: isAr ? 'المتجر' : 'Store', icon: ShoppingCart },
+    { to: '/store', label: isAr ? 'المتجر' : 'Store', icon: ShoppingCart },
     { to: '/about', label: isAr ? 'عن الطبيب' : 'About', icon: User },
     { to: '/booking', label: isAr ? 'حجز موعد' : 'Book', icon: Calendar, highlight: true },
   ];

@@ -10,17 +10,14 @@ import {
   Clock, 
   Calendar, 
   ChevronDown,
-  ShoppingBag,
   Sparkles
 } from 'lucide-react';
 import { useLanguage } from '../../context/LanguageContext';
 import { useTheme } from '../../context/ThemeContext';
-import { useCart } from '../../context/CartContext';
 
 export default function Header({ onToggleMobileDrawer }) {
   const { lang, setLang, toggleLanguage, t, isRtl } = useLanguage();
   const { theme, toggleTheme, isDark } = useTheme();
-  const { cartCount, openCart } = useCart();
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -228,26 +225,6 @@ export default function Header({ onToggleMobileDrawer }) {
             <div className="w-2 h-2 rounded-full bg-[#25D366] animate-ping" />
             <span dir="ltr">{isAr ? 'واتساب: 772070207' : 'WhatsApp: 772070207'}</span>
           </a>
-
-          {/* Shopping Cart Button with Live Counter Badge */}
-          <button
-            type="button"
-            onClick={() => {
-              openCart();
-              if (location.pathname !== '/nodisc-store') {
-                navigate('/nodisc-store');
-              }
-            }}
-            className="relative p-2.5 rounded-2xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors flex items-center justify-center cursor-pointer active:scale-95"
-            title={isAr ? 'سلة المشتريات الطبية' : 'Medical Cart'}
-          >
-            <ShoppingBag className="w-4 h-4 text-primary-600 dark:text-secondary-400" />
-            {cartCount > 0 && (
-              <span className="absolute -top-1 -right-1 min-w-[18px] h-[18px] px-1 rounded-full bg-emerald-600 text-white text-[10px] font-black flex items-center justify-center tabular-nums shadow-sm animate-pulse">
-                {cartCount}
-              </span>
-            )}
-          </button>
 
           {/* Booking CTA (Desktop) */}
           <Link

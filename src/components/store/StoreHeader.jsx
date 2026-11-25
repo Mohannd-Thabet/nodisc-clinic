@@ -12,7 +12,6 @@ import {
   Heart,
   ShoppingCart,
   Menu,
-  Pill,
   Tag,
   UploadCloud,
   Grid,
@@ -30,7 +29,7 @@ export default function StoreHeader({ onOpenMobileDrawer }) {
   const { lang, toggleLanguage, isRtl } = useLanguage();
   const { toggleTheme, isDark } = useTheme();
   const { cartCount, cartSubtotalYER, openCart } = useCart();
-  const { currency, toggleCurrency, formatPrice, wishlistCount, openStoreSearch } = useStore();
+  const { currency, setCurrency, formatPrice, wishlistCount, openStoreSearch } = useStore();
   const location = useLocation();
   const isAr = lang === 'ar';
 
@@ -77,17 +76,29 @@ export default function StoreHeader({ onOpenMobileDrawer }) {
             </span>
           </div>
 
-          <div className="flex items-center gap-2 sm:gap-3">
-            {/* Currency Switcher */}
-            <button
-              type="button"
-              onClick={toggleCurrency}
-              className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-gold-300 font-bold border border-slate-700 transition-colors"
-              title={isAr ? 'تغيير العملة' : 'Switch Currency'}
-            >
-              <Coins className="w-3.5 h-3.5" />
-              <span>{currency === 'YER' ? (isAr ? 'ر.ي (YER)' : 'YER') : 'USD ($)'}</span>
-            </button>
+          <div className="flex items-center gap-2">
+            {/* 3-Currency Switcher: YER | SAR | USD */}
+            <div className="inline-flex items-center rounded-lg bg-slate-900 border border-slate-700 p-0.5">
+              <Coins className="w-3.5 h-3.5 text-gold-400 mx-1.5 hidden sm:block" />
+              {[
+                { code: 'YER', label: isAr ? 'ر.ي' : 'YER' },
+                { code: 'SAR', label: isAr ? 'ر.س' : 'SAR' },
+                { code: 'USD', label: '$' },
+              ].map((c) => (
+                <button
+                  key={c.code}
+                  type="button"
+                  onClick={() => setCurrency(c.code)}
+                  className={`px-2 py-0.5 rounded-md text-[11px] font-black transition-colors ${
+                    currency === c.code
+                      ? 'bg-gold-400 text-slate-950'
+                      : 'text-slate-300 hover:text-white'
+                  }`}
+                >
+                  {c.label}
+                </button>
+              ))}
+            </div>
 
             {/* Store Admin Link */}
             <Link
@@ -114,7 +125,7 @@ export default function StoreHeader({ onOpenMobileDrawer }) {
       {/* Sticky Main Store Header */}
       <div className="bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 transition-colors">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 sm:h-20 flex items-center justify-between gap-3">
-          {/* Store Brand */}
+          {/* Store Brand with Official Logo */}
           <div className="flex items-center gap-3">
             <button
               type="button"
@@ -126,8 +137,12 @@ export default function StoreHeader({ onOpenMobileDrawer }) {
             </button>
 
             <Link to="/store" className="flex items-center gap-3 group">
-              <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-2xl bg-gradient-to-br from-emerald-600 to-primary-700 text-white flex items-center justify-center shadow-md group-hover:scale-105 transition-transform">
-                <Pill className="w-5 h-5 sm:w-6 sm:h-6 text-gold-300" />
+              <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-2xl overflow-hidden border-2 border-emerald-500/40 shadow-md group-hover:scale-105 transition-transform bg-white shrink-0">
+                <img
+                  src="/assets/full_logo.jpg"
+                  alt={isAr ? 'شعار متجر نوديسك' : 'NODISC Store Logo'}
+                  className="w-full h-full object-cover"
+                />
               </div>
               <div>
                 <div className="font-black text-sm sm:text-base text-slate-900 dark:text-white leading-tight">
@@ -171,7 +186,7 @@ export default function StoreHeader({ onOpenMobileDrawer }) {
             })}
           </nav>
 
-          {/* Store Actions: Search, Wishlist, Theme, Cart */}
+          {/* Store Actions: Search, Dark/Light Theme, Wishlist, Cart */}
           <div className="flex items-center gap-2">
             <button
               type="button"
@@ -183,13 +198,15 @@ export default function StoreHeader({ onOpenMobileDrawer }) {
               <span className="hidden xl:inline">{isAr ? 'بحث في الصيدلية...' : 'Search Store...'}</span>
             </button>
 
+            {/* Dark/Light Mode Switch (Always Visible) */}
             <button
               type="button"
               onClick={toggleTheme}
-              className="hidden sm:flex p-2 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
-              aria-label={isAr ? 'تبديل المظهر' : 'Toggle Theme'}
+              className="p-2 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 transition-colors"
+              aria-label={isAr ? 'الوضع الليلي والنهاري' : 'Toggle Dark/Light Mode'}
+              title={isDark ? (isAr ? 'الوضع النهاري' : 'Light Mode') : (isAr ? 'الوضع الليلي' : 'Dark Mode')}
             >
-              {isDark ? <Sun className="w-4 h-4 text-gold-400" /> : <Moon className="w-4 h-4" />}
+              {isDark ? <Sun className="w-4 h-4 text-amber-400" /> : <Moon className="w-4 h-4 text-slate-700" />}
             </button>
 
             <Link
