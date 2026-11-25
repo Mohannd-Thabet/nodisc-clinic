@@ -51,6 +51,7 @@ export default function StoreProductDetailPage() {
   const [hoverRating, setHoverRating] = useState(0);
   const [reviewComment, setReviewComment] = useState('');
   const [reviewSuccess, setReviewSuccess] = useState(false);
+  const [showReviewForm, setShowReviewForm] = useState(false);
 
   const userReviews = customReviewsMap[product.id] || [];
   const allReviews = [...userReviews, ...(product.reviews || [])];
@@ -85,8 +86,9 @@ export default function StoreProductDetailPage() {
     setReviewAuthor('');
     setReviewRating(5);
     setReviewComment('');
+    setShowReviewForm(false);
     setReviewSuccess(true);
-    setTimeout(() => setReviewSuccess(false), 3000);
+    setTimeout(() => setReviewSuccess(false), 4000);
   };
 
   // Auto-scroll to top when navigating to any product page
@@ -351,88 +353,105 @@ export default function StoreProductDetailPage() {
                 {isAr ? 'تقييمات العملاء والمرضى' : 'Customer & Patient Reviews'}
               </h2>
             </div>
-            <div className="flex items-center gap-2 text-sm font-bold text-amber-500">
-              <Star className="w-5 h-5 fill-amber-400" />
-              <span>{liveRating} / 5</span>
-              <span className="text-slate-400 text-xs">({liveReviewsCount})</span>
+            <div className="flex items-center gap-3">
+              <div className="flex items-center gap-2 text-sm font-bold text-amber-500">
+                <Star className="w-5 h-5 fill-amber-400" />
+                <span>{liveRating} / 5</span>
+                <span className="text-slate-400 text-xs">({liveReviewsCount})</span>
+              </div>
+
+              <button
+                type="button"
+                onClick={() => setShowReviewForm((prev) => !prev)}
+                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-primary-700 hover:bg-primary-800 text-white font-bold text-xs shadow-sm active:scale-95 transition-all"
+              >
+                <MessageSquare className="w-3.5 h-3.5 text-gold-300" />
+                <span>
+                  {showReviewForm
+                    ? isAr ? 'إخفاء النموذج' : 'Hide Form'
+                    : isAr ? 'أضف تقييم وتعليق' : 'Add Review'}
+                </span>
+              </button>
             </div>
           </div>
 
-          {/* Add New Rating & Comment Form */}
-          <form
-            onSubmit={handleReviewSubmit}
-            className="p-4 sm:p-5 rounded-2xl bg-slate-50 dark:bg-slate-800/70 border border-slate-200 dark:border-slate-700 space-y-4"
-          >
-            <div className="flex flex-wrap items-center justify-between gap-2">
-              <h3 className="text-sm font-black text-slate-900 dark:text-white">
-                {isAr ? 'أضف تقييمك وتعليقك على المنتج' : 'Add Your Rating & Review'}
-              </h3>
-
-              {/* Interactive Star Picker */}
-              <div className="flex items-center gap-1" dir="ltr">
-                {[1, 2, 3, 4, 5].map((starVal) => {
-                  const active = (hoverRating || reviewRating) >= starVal;
-                  return (
-                    <button
-                      key={starVal}
-                      type="button"
-                      onClick={() => setReviewRating(starVal)}
-                      onMouseEnter={() => setHoverRating(starVal)}
-                      onMouseLeave={() => setHoverRating(0)}
-                      aria-label={`${starVal} stars`}
-                      className="p-0.5 transition-transform hover:scale-110"
-                    >
-                      <Star
-                        className={`w-5 h-5 ${
-                          active ? 'fill-amber-400 text-amber-400' : 'text-slate-300 dark:text-slate-600'
-                        }`}
-                      />
-                    </button>
-                  );
-                })}
-                <span className="text-xs font-bold text-amber-500 ml-1.5">{reviewRating}/5</span>
-              </div>
+          {reviewSuccess && (
+            <div className="p-3.5 rounded-2xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800 flex items-center gap-2 text-xs font-bold text-emerald-700 dark:text-emerald-300">
+              <CheckCircle2 className="w-4 h-4 shrink-0" />
+              <span>{isAr ? 'تمت إضافة تقييمك وتعليقك بنجاح!' : 'Your rating and review have been added!'}</span>
             </div>
+          )}
 
-            <div className="grid grid-cols-1 sm:grid-cols-12 gap-3">
-              <div className="sm:col-span-4">
-                <input
-                  required
-                  type="text"
-                  value={reviewAuthor}
-                  onChange={(e) => setReviewAuthor(e.target.value)}
-                  placeholder={isAr ? 'الاسم الكريم *' : 'Your Name *'}
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-xs sm:text-sm outline-none focus:border-primary-500"
-                />
-              </div>
-              <div className="sm:col-span-6">
-                <input
-                  required
-                  type="text"
-                  value={reviewComment}
-                  onChange={(e) => setReviewComment(e.target.value)}
-                  placeholder={isAr ? 'اكتب تعليقك وتجربتك مع المنتج *' : 'Write your review and experience *'}
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-xs sm:text-sm outline-none focus:border-primary-500"
-                />
-              </div>
-              <div className="sm:col-span-2">
-                <button
-                  type="submit"
-                  className="w-full h-full min-h-[40px] inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl bg-primary-700 hover:bg-primary-800 text-white font-bold text-xs shadow-sm active:scale-95 transition-all"
-                >
-                  <Send className="w-3.5 h-3.5" />
-                  <span>{isAr ? 'إرسال' : 'Submit'}</span>
-                </button>
-              </div>
-            </div>
+          {/* Toggleable Add New Rating & Comment Form */}
+          {showReviewForm && (
+            <form
+              onSubmit={handleReviewSubmit}
+              className="p-4 sm:p-5 rounded-2xl bg-slate-50 dark:bg-slate-800/70 border border-slate-200 dark:border-slate-700 space-y-4"
+            >
+              <div className="flex flex-wrap items-center justify-between gap-2">
+                <h3 className="text-sm font-black text-slate-900 dark:text-white">
+                  {isAr ? 'أضف تقييمك وتعليقك على المنتج' : 'Add Your Rating & Review'}
+                </h3>
 
-            {reviewSuccess && (
-              <div className="flex items-center gap-2 text-xs font-bold text-emerald-600 dark:text-emerald-400">
-                <CheckCircle2 className="w-4 h-4" />
-                <span>{isAr ? 'تمت إضافة تقييمك وتعليقك بنجاح!' : 'Your rating and review have been added!'}</span>
+                {/* Interactive Star Picker */}
+                <div className="flex items-center gap-1" dir="ltr">
+                  {[1, 2, 3, 4, 5].map((starVal) => {
+                    const active = (hoverRating || reviewRating) >= starVal;
+                    return (
+                      <button
+                        key={starVal}
+                        type="button"
+                        onClick={() => setReviewRating(starVal)}
+                        onMouseEnter={() => setHoverRating(starVal)}
+                        onMouseLeave={() => setHoverRating(0)}
+                        aria-label={`${starVal} stars`}
+                        className="p-0.5 transition-transform hover:scale-110"
+                      >
+                        <Star
+                          className={`w-5 h-5 ${
+                            active ? 'fill-amber-400 text-amber-400' : 'text-slate-300 dark:text-slate-600'
+                          }`}
+                        />
+                      </button>
+                    );
+                  })}
+                  <span className="text-xs font-bold text-amber-500 ml-1.5">{reviewRating}/5</span>
+                </div>
               </div>
-            )}
-          </form>
+
+              <div className="grid grid-cols-1 sm:grid-cols-12 gap-3">
+                <div className="sm:col-span-4">
+                  <input
+                    required
+                    type="text"
+                    value={reviewAuthor}
+                    onChange={(e) => setReviewAuthor(e.target.value)}
+                    placeholder={isAr ? 'الاسم الكريم *' : 'Your Name *'}
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-xs sm:text-sm outline-none focus:border-primary-500"
+                  />
+                </div>
+                <div className="sm:col-span-6">
+                  <input
+                    required
+                    type="text"
+                    value={reviewComment}
+                    onChange={(e) => setReviewComment(e.target.value)}
+                    placeholder={isAr ? 'اكتب تعليقك وتجربتك مع المنتج *' : 'Write your review and experience *'}
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-xs sm:text-sm outline-none focus:border-primary-500"
+                  />
+                </div>
+                <div className="sm:col-span-2">
+                  <button
+                    type="submit"
+                    className="w-full h-full min-h-[40px] inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl bg-primary-700 hover:bg-primary-800 text-white font-bold text-xs shadow-sm active:scale-95 transition-all"
+                  >
+                    <Send className="w-3.5 h-3.5" />
+                    <span>{isAr ? 'إرسال' : 'Submit'}</span>
+                  </button>
+                </div>
+              </div>
+            </form>
+          )}
 
           {allReviews.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
