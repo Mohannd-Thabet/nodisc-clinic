@@ -12,6 +12,7 @@ import {
   Truck,
   Clock,
   MessageSquare,
+  Send,
 } from 'lucide-react';
 import { useLanguage } from '../../context/LanguageContext';
 import { useStore } from '../../context/StoreContext';
@@ -36,6 +37,57 @@ export default function StoreProductDetailPage() {
 
   const [selectedOption, setSelectedOption] = useState(product?.options?.[0] || null);
   const [quantity, setQuantity] = useState(1);
+
+  const [customReviewsMap, setCustomReviewsMap] = useState(() => {
+    try {
+      const saved = localStorage.getItem('nodisc_product_reviews_v1');
+      return saved ? JSON.parse(saved) : {};
+    } catch {
+      return {};
+    }
+  });
+  const [reviewAuthor, setReviewAuthor] = useState('');
+  const [reviewRating, setReviewRating] = useState(5);
+  const [hoverRating, setHoverRating] = useState(0);
+  const [reviewComment, setReviewComment] = useState('');
+  const [reviewSuccess, setReviewSuccess] = useState(false);
+
+  const userReviews = customReviewsMap[product.id] || [];
+  const allReviews = [...userReviews, ...(product.reviews || [])];
+  const liveReviewsCount = (product.reviewsCount || 0) + userReviews.length;
+  const liveRating = useMemo(() => {
+    if (userReviews.length === 0) return product.rating;
+    const baseTotal = (product.rating || 5) * (product.reviewsCount || 1);
+    const addedTotal = userReviews.reduce((s, r) => s + r.rating, 0);
+    return Number(((baseTotal + addedTotal) / ((product.reviewsCount || 1) + userReviews.length)).toFixed(1));
+  }, [product.rating, product.reviewsCount, userReviews]);
+
+  const handleReviewSubmit = (e) => {
+    e.preventDefault();
+    if (!reviewAuthor.trim() || !reviewComment.trim()) return;
+    const newRev = {
+      id: `rev-${Date.now()}`,
+      author: reviewAuthor.trim(),
+      rating: reviewRating,
+      date: new Date().toISOString().slice(0, 10),
+      comment: reviewComment.trim(),
+    };
+    const nextMap = {
+      ...customReviewsMap,
+      [product.id]: [newRev, ...(customReviewsMap[product.id] || [])],
+    };
+    setCustomReviewsMap(nextMap);
+    try {
+      localStorage.setItem('nodisc_product_reviews_v1', JSON.stringify(nextMap));
+    } catch {
+      // ignore storage errors
+    }
+    setReviewAuthor('');
+    setReviewRating(5);
+    setReviewComment('');
+    setReviewSuccess(true);
+    setTimeout(() => setReviewSuccess(false), 3000);
+  };
 
   // Auto-scroll to top when navigating to any product page
   useEffect(() => {
@@ -166,9 +218,9 @@ export default function StoreProductDetailPage() {
                     <Star key={i} className="w-4 h-4 fill-amber-400" />
                   ))}
                 </div>
-                <span className="font-black text-slate-900 dark:text-white">{product.rating}</span>
+                <span className="font-black text-slate-900 dark:text-white">{liveRating}</span>
                 <span className="underline">
-                  ({product.reviewsCount} {isAr ? 'تقييم عملاء' : 'Reviews'})
+                  ({liveReviewsCount} {isAr ? 'تقييم عملاء' : 'Reviews'})
                 </span>
               </button>
 
@@ -301,14 +353,90 @@ export default function StoreProductDetailPage() {
             </div>
             <div className="flex items-center gap-2 text-sm font-bold text-amber-500">
               <Star className="w-5 h-5 fill-amber-400" />
-              <span>{product.rating} / 5</span>
-              <span className="text-slate-400 text-xs">({product.reviewsCount})</span>
+              <span>{liveRating} / 5</span>
+              <span className="text-slate-400 text-xs">({liveReviewsCount})</span>
             </div>
           </div>
 
-          {product.reviews && product.reviews.length > 0 ? (
+          {/* Add New Rating & Comment Form */}
+          <form
+            onSubmit={handleReviewSubmit}
+            className="p-4 sm:p-5 rounded-2xl bg-slate-50 dark:bg-slate-800/70 border border-slate-200 dark:border-slate-700 space-y-4"
+          >
+            <div className="flex flex-wrap items-center justify-between gap-2">
+              <h3 className="text-sm font-black text-slate-900 dark:text-white">
+                {isAr ? 'أضف تقييمك وتعليقك على المنتج' : 'Add Your Rating & Review'}
+              </h3>
+
+              {/* Interactive Star Picker */}
+              <div className="flex items-center gap-1" dir="ltr">
+                {[1, 2, 3, 4, 5].map((starVal) => {
+                  const active = (hoverRating || reviewRating) >= starVal;
+                  return (
+                    <button
+                      key={starVal}
+                      type="button"
+                      onClick={() => setReviewRating(starVal)}
+                      onMouseEnter={() => setHoverRating(starVal)}
+                      onMouseLeave={() => setHoverRating(0)}
+                      aria-label={`${starVal} stars`}
+                      className="p-0.5 transition-transform hover:scale-110"
+                    >
+                      <Star
+                        className={`w-5 h-5 ${
+                          active ? 'fill-amber-400 text-amber-400' : 'text-slate-300 dark:text-slate-600'
+                        }`}
+                      />
+                    </button>
+                  );
+                })}
+                <span className="text-xs font-bold text-amber-500 ml-1.5">{reviewRating}/5</span>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-12 gap-3">
+              <div className="sm:col-span-4">
+                <input
+                  required
+                  type="text"
+                  value={reviewAuthor}
+                  onChange={(e) => setReviewAuthor(e.target.value)}
+                  placeholder={isAr ? 'الاسم الكريم *' : 'Your Name *'}
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-xs sm:text-sm outline-none focus:border-primary-500"
+                />
+              </div>
+              <div className="sm:col-span-6">
+                <input
+                  required
+                  type="text"
+                  value={reviewComment}
+                  onChange={(e) => setReviewComment(e.target.value)}
+                  placeholder={isAr ? 'اكتب تعليقك وتجربتك مع المنتج *' : 'Write your review and experience *'}
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-xs sm:text-sm outline-none focus:border-primary-500"
+                />
+              </div>
+              <div className="sm:col-span-2">
+                <button
+                  type="submit"
+                  className="w-full h-full min-h-[40px] inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl bg-primary-700 hover:bg-primary-800 text-white font-bold text-xs shadow-sm active:scale-95 transition-all"
+                >
+                  <Send className="w-3.5 h-3.5" />
+                  <span>{isAr ? 'إرسال' : 'Submit'}</span>
+                </button>
+              </div>
+            </div>
+
+            {reviewSuccess && (
+              <div className="flex items-center gap-2 text-xs font-bold text-emerald-600 dark:text-emerald-400">
+                <CheckCircle2 className="w-4 h-4" />
+                <span>{isAr ? 'تمت إضافة تقييمك وتعليقك بنجاح!' : 'Your rating and review have been added!'}</span>
+              </div>
+            )}
+          </form>
+
+          {allReviews.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {product.reviews.map((rev) => (
+              {allReviews.map((rev) => (
                 <div
                   key={rev.id}
                   className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 space-y-2"
