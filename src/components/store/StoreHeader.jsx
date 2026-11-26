@@ -6,7 +6,6 @@ import {
   Phone,
   ShieldCheck,
   Coins,
-  Settings,
   Globe,
   Search,
   Heart,
@@ -99,15 +98,6 @@ export default function StoreHeader({ onOpenMobileDrawer }) {
                 </button>
               ))}
             </div>
-
-            {/* Store Admin Link */}
-            <Link
-              to="/admin/products"
-              className="hidden sm:inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white border border-slate-700 transition-colors"
-            >
-              <Settings className="w-3.5 h-3.5 text-secondary-400" />
-              <span>{isAr ? 'إدارة المتجر' : 'Store Admin'}</span>
-            </Link>
 
             {/* Language Switcher */}
             <button
