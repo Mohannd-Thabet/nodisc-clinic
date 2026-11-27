@@ -267,8 +267,23 @@ export default function Footer() {
         </div>
 
         {/* Bottom Bar */}
-        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
+        <div className="pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-slate-500">
           <p>{t('common.rights')}</p>
+
+          <div className="flex flex-wrap items-center justify-center gap-2 text-slate-400">
+            <span className="font-bold text-slate-300">
+              {isAr ? 'تصميم وبرمجة: م/مهند البحيري' : 'Designed & Developed by: Eng. Mohannad Al-Buhairi'}
+            </span>
+            <a
+              href="tel:+967777319732"
+              className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-800 hover:bg-emerald-600 text-emerald-400 hover:text-white border border-slate-700 hover:border-emerald-500 font-bold transition-all shadow-xs"
+              dir="ltr"
+            >
+              <Phone className="w-3.5 h-3.5" />
+              <span>+967 777319732</span>
+            </a>
+          </div>
+
           <div className="flex items-center gap-1">
             <ShieldCheck className="w-4 h-4 text-primary-400" />
             <span>

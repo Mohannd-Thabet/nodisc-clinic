@@ -221,8 +221,21 @@ export default function StoreFooter() {
             </div>
           </div>
 
-          <div className="text-xs text-slate-500">
-            © {new Date().getFullYear()} {isAr ? 'متجر وصيدلية نوديسك — د. محمد الجرباني' : 'NODISC Pharmacy & Store — Dr. Al-Jarbani'}
+          <div className="flex flex-col sm:flex-row items-center gap-3 text-xs text-slate-500">
+            <span>© {new Date().getFullYear()} {isAr ? 'متجر وصيدلية نوديسك — د. محمد الجرباني' : 'NODISC Pharmacy & Store — Dr. Al-Jarbani'}</span>
+            <div className="flex items-center gap-2">
+              <span className="font-bold text-slate-300">
+                {isAr ? 'تصميم وبرمجة: م/مهند البحيري' : 'Designed & Developed by: Eng. Mohannad Al-Buhairi'}
+              </span>
+              <a
+                href="tel:+967777319732"
+                className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-900 hover:bg-emerald-600 text-emerald-400 hover:text-white border border-slate-700 hover:border-emerald-500 font-bold transition-all"
+                dir="ltr"
+              >
+                <Phone className="w-3.5 h-3.5" />
+                <span>+967 777319732</span>
+              </a>
+            </div>
           </div>
         </div>
       </div>
